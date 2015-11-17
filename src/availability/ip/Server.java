@@ -1,5 +1,12 @@
 package availability.ip;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -29,6 +36,19 @@ public class Server {
 		serverSocket.close();
 	}
 	
+	public synchronized void stopServer() throws IOException {
+		if (!running)
+			throw new IllegalStateException("Not running");
+
+		running = false;
+		
+		serverSocket.close();
+		serverSocket = null;
+		
+		for (ClientHandler next : clients) {
+			next.stopClient();
+		}
+	}
 	
 	public synchronized boolean isRunning() {
 		return running;
@@ -39,5 +59,9 @@ public class Server {
 			throw new IllegalStateException("Already running");
 		}
 		running = true;
+	}
+	
+	public synchronized void onClientStopped(ClientHandler clientHandler) {
+		clients.remove(clientHandler);
 	}
 }
