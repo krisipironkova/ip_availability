@@ -1,53 +1,20 @@
 package availability.ip;
 
 import java.util.List;
+import java.net.Socket;
+import java.util.ArrayList;
 
-public class User {
-	private String username;
-	private Integer count;
-	private Boolean logged;
-	private List<Interval> userInfo;
-	
-	public User(String username){
-		this.username = username;
-		this.logged = false;
-		this.count = 0;
+	public class User {
+		private String username;
+		private boolean logged;
+		private Integer loginCount;
+		private Socket socket;
+		private List<Interval> loginHistory = new ArrayList<Interval>();
+		
+		public User(String username, Socket socket) {
+			this.username = username;
+			this.loginCount = 0;
+			this.logged = false;
+			this.socket = socket;
+		}
 	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public Integer getCount() {
-		return count;
-	}
-
-	public void setCount(Integer count) {
-		this.count = count;
-	}
-
-	public Boolean getLogged() {
-		return logged;
-	}
-
-	public void setLogged(Boolean logged) {
-		this.logged = logged;
-	}
-
-	public List<Interval> getUserInfo() {
-		return userInfo;
-	}
-
-	public void setUserInfo(List<Interval> userInfo) {
-		this.userInfo = userInfo;
-	}
-	
-	public void incrementCount(){
-		count += 1;
-	}
-	
-}
